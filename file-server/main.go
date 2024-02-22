@@ -5,7 +5,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"os/user"
 	"path/filepath"
 
 	"github.com/rs/cors"
@@ -19,30 +18,34 @@ func main() {
 		w.Header().Set("Access-Control-Allow-Methods", "GET")
 		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, Authorization")
 
-		// Extract the slug from the request URL
+		// extract slug from the request
 		slug := r.URL.Path[len("/video/"):]
 
-		// Get the current user's home directory
-		usr, err := user.Current()
+		currentDir, err := os.Getwd()
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
-		// Build the file path using the home directory
-		filePath := filepath.Join(usr.HomeDir, "Desktop", "Algorave", slug+".mp4")
+		// build filepath to video files
+		filePath := filepath.Join(currentDir, "..", "visuals", slug+".mp4")
 
 		file, err := os.Open(filePath)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		defer file.Close()
+		defer func(file *os.File) {
+			err := file.Close()
+			if err != nil {
+				panic("failed to close file")
+			}
+		}(file)
 
-		// Set the content type to video/mp4
+		// set content type
 		w.Header().Set("Content-Type", "video/mp4")
 
-		// Copy the file data to the response writer
+		// copy the file data to the response writer
 		_, err = io.Copy(w, file)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -53,6 +56,8 @@ func main() {
 	handler := cors.Default().Handler(mux)
 
 	fmt.Println("server listening on 8080")
-	// Start the server on port 8080
-	http.ListenAndServe(":8080", handler)
+	err := http.ListenAndServe(":8080", handler)
+	if err != nil {
+		panic("failed to start server")
+	}
 }
