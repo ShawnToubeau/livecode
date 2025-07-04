@@ -1,0 +1,328 @@
+setCps(140 / 60 / 4);
+
+const breakNumCycles = 4
+
+// very simple but also emotional and melodic 
+_crystal_synth_mel: note("{c2}").s("smel:1")
+  .slice(4 * breakNumCycles, "{10}%4") // 6 - 10
+  .shape(.4)
+  .lpf("{<400 600 800 1000>}%4")
+  // .delay(.3)
+  .clip(1)
+
+_gabber_kick: s("sbd:3")
+  .struct("{[1 ~ 1 ~] [1 ~ 1 1]}%4") 
+  // .lpf(1200)
+  .sustain(.8)
+  .gain(1.5)
+  .clip(1)
+  .velocity("{1.3 1.4 1.5 1.6}")
+
+_oh: s("soh")
+  .struct("{1 ~}%8")
+  // .struct("{[1 ~ 1 ~] [1 ~ 1 1]}%4")
+
+_cp: sound("cp")
+  .bank("RolandTR909")
+  .struct("{~ [1 <~ 0>]}%4") 
+  // .gain(1)
+
+_thriller_mel: note("{a2 b2 c2 d2}%8") //a2 b2 c2 d2
+  .s("supersaw")
+  .gain(1.4)
+  // .dist("1.75:.5")
+  // .room(1.3)
+  // .delay(.1)
+  // .sustain(1.4)
+  // .release(.2)
+  .lpf(300)
+  .lpenv(1.5)
+  .clip(1)
+
+_powerline_3k_kick: s("sbd:5")
+  .struct("{1 [1 1] 0 [1, 1]}%8")
+  // .lpf(1800)
+  .dist("1:.5")
+  .gain(1.5)
+  .velocity(perlin.range(1.25, 1.5))
+
+_jungle_kick: sound("sbd:2")
+  .struct("{[1 1 0 1][1 0 0 1][1 1 0 1][1 0 0 1]}%4")  
+  .shape(.4)
+  .lpf("{<400 600 800 1000>}%4")
+  // .delay(.1)
+  .decay(.5)
+  .sustain(.4)
+  .release(0.2)
+  .velocity("{.8 <.7, .9> .6}%16") 
+
+_vortext_bass:note("{a2 b2 c2 d#2}%8")
+  .s("supersaw")
+  .gain(1.5)
+  .lpf("800 600 400")
+  .lpenv("500")
+  .room(1.3)
+  .delay(.2)
+
+
+_bass_fill: s("smel:3")
+  .ribbon(0, .5)
+  // .scrub(".01:1")
+  .lpf(1200)
+  .sustain(.8)
+  .gain(1.5)
+  .clip(1)
+  .velocity("{1.3 1.4 1.5 1.6}")
+
+_boss_battle: note("{c2 d2 <eb2 cb2>}") // "{<c2!4 d2!4>}"
+  .s("sstab")
+  .loopAt(.5)
+  // .loop(.75)
+  // .loopEnd("<.5 .25>")
+  .lpf("{1000 600}/4") // "{600 2000}/4"
+  .lpa("{.5 .25}/2")
+  // .lpenv("<2 1 -1 -2>/4") // "<4 2 1 -1 -2 -4>/4"
+  .attack(.05)
+  .fast(2)
+  .clip(1)
+  ._scope()
+
+
+// "{d1 ~ [d1!2] e1 ~ [gb1 e1] c1 }%8"
+// "{d1 [d#1 b1] <[g1 a#1] [e1 g1]> d1}%8"
+_dun_dun: note("{c2 [ab1 c2] <f1 [eb1!2]> ~}%8") 
+  .s("sbd:6")
+  .lpf("{800 600 400}/4")
+  .lpenv("500")
+  .clip(1)
+
+_darude: note("c2")
+  .struct("{x!4 0 x!2 0}%16")
+  .sometimesBy(.25, add(note("2")))
+  .s("sbass:3")
+  .lpf(3000)
+  .rel(.2)
+  .velocity("<1.2 1.5>")
+  .dist(".25:.75")
+  .shape(.1)
+  ._scope()
+
+
+$: note("c2".add("<0 1>/2").seg(8))
+  .s("sbass:1")
+  .begin(sine.range(0.15,.4))
+  .dist(3)
+  .gain("{.3 1}%8")
+  // .loop(0)
+  // .loopBegin(.25)
+  // .loopEnd(1.5)
+  // .ribbon(0, .2)
+  // .struct("{[1 ~ 1 ~] [1 ~ 1 1]}%4") 
+  .lpf(100)
+  // .sustain(1.8)
+
+  // .fast(2)
+  // .attack(.01)
+  .clip(1)
+  // .velocity("{1.3 1.4 1.5 1.6}")
+  ._scope()
+_$: note("{[d1 | g1 | a1 | c2]}%16")
+  .s("sfx:6")
+  .dist("1:.6")
+  // .scrub("{0.1!2 .15@3 ~!2 <0.18:1.5>}")
+  .struct("{[1 ~ ~ ~][1 ~ ~ ~]}%8")
+  // .hpf(500)
+  // .bpf(2000)
+  // .coarse(10)
+  .clip(1)
+  ._scope()
+
+_$: note("{b1 d2}%4") 
+  .s("sbd:4").begin(.12)
+  
+  // .loop(1)
+  // .loopBegin(.25)
+  // .loopEnd(.75)
+  // .ribbon(0, .25)
+  .struct("{1 ~}%8") 
+  // .lpf(1200)
+  .clip(1)
+  .velocity("1.3 | 1.4 | 1.5 | 1.6")
+  ._scope()
+
+_$: s("soh")
+  .struct("{1 ~}%4")
+  ._punchcard()
+_$: note("c1".add(7)).struct("{x!4 ~ x ~ ~}%16").s("sawtooth")
+  .lpf(100).lpenv(4).dist(2).lpq(6).ftype(2)
+
+
+_$: note("gb1!2 c2 f1")
+  .sub(note(6))
+  .s("sstab:3")
+  .lpf(600) // 600 | 1200
+  // .crush(6)
+  // .coarse("5") // 4 | 8
+  .loop(1)
+  // .loopBegin(.25)
+  // .loopEnd(.5)
+  // .lpf(1200)
+  // .hpf(400)
+  // .gain(.5)
+  .fast(2)
+  // .attack(.1)
+  // .decay(.2)
+  // .sustain(.5)
+  .clip(1)
+  ._scope()
+
+_$: note("{c2}") 
+  .s("sfx:4")
+  // .loop(1)
+  // .loopBegin(0)
+  // .loopEnd(1)
+  // .ribbon(.5, .25)
+  .struct("{1}") 
+  .shape(.5)
+  // .struct("{x ~ [x x] ~ ~}")  
+  // .lpf(1200)
+  // .sustain(.8)
+  // .gain(1.5)-
+  // .fast(2)
+  .attack(.01)
+  // .decay(.1)
+  .clip(.5)
+  // .velocity("{1.3 1.4 1.5 1.6}")
+  ._scope()
+
+fun_fx$: note("{<c2 d2 e#2 <g2 d#2>>}%4".add(0))
+  .s("sfx")
+  // .dist(1)
+  .struct("{1 ~ <1 1> ~}%16") // add(0)
+  // .struct("{1!2 ~ 1 ~}%16") // add(12)
+  // .bpf(400)
+  // .lpf(1600)
+  // .hpf(1400)
+  // .coarse("{3 4}%8")
+  // .crush("{6 7}%4")
+  // .crush(6)
+  .clip(1)
+  ._scope()
+
+
+_$: note("{c2}") 
+  .s("sfx:4")
+  // .loop(1)
+  // .loopBegin(0)
+  // .loopEnd(1)
+  .ribbon(.5, .5)
+  // .struct("{1}") 
+  .shape(.5)
+  // .struct("{x ~ [x x] ~ ~}")  
+  .lpf(1200)
+  // .sustain(.8)
+  // .gain(1.5)-
+  // .fast(2)
+  .attack(.01)
+  // .decay(.1)
+  .clip(.5)
+  // .velocity("{1.3 1.4 1.5 1.6}")
+  ._scope()
+
+  synth_2$: note("{c2 <f1 g1>}".add("[7 12]/2"))
+  .s("sstab:3")
+  .struct("{x ~}%16")
+  .lpf(1200) // 600 | 1200
+  .lpenv(2)
+  .ftype(1) // 2 | 1
+  .lpq(6)
+ 
+  // .attack(.3)
+  .decay(.2)
+  .clip(1)
+  .room(.8)
+  .roomsize(2)
+  ._scope()
+
+  _vocal_fx$: note("{<c2 d2 e#2 <g2 d#2>>}%8".sub(0)).begin(0.1)
+  .s("sfx:4")
+  // .dist()
+  .struct("{1 0 [1 <0 1>] 0}%16")
+  // .lpf(400)
+  // .bpf(100)
+  // .coarse(6)
+  // .postgain(3)
+  .clip(1)
+  ._scope()
+
+
+/* ==================================
+
+TODO need to get samples
+
+================================== */ 
+
+_muted_bass_mel: note("{f a d e d}%8"
+  .sub("{24 12 5 14}%16")
+  .rarely(sub(4))
+)
+.s("gm_synth_bass_2:6")
+.euclidrot(15, 16, "<3 2 4>")
+.lpf(slider(1470, 500, 2000, 10))
+.release(.3)
+.cut(1)
+.gain(1.4)
+
+_voice_mel: n("{[<0 <3 2>> ~ 4] [6 <1 2> ~ 3] [5 ~ 0 2] [4 ~ 5 <6 3>]}")
+  .scale("f#:minor") // F# G# A B C# D E F#
+  .sound("gm_bassoon:3, gm_synth_bass_2:6, gm_voice_oohs:3, gm_choir_aahs:1")
+  .room(.3)
+  .size(3)
+  .lpf(perlin.range(2000, 3000).slow(16))
+  .shape(.8)
+  .postgain(slider(0.55,0.15,1,.05))
+  .phaser(".2")
+  .clip(1)
+
+_faster_voice_mel: note("{f a d e d}%8")
+  .s("gm_bassoon:3, gm_synth_bass_2:6, gm_voice_oohs:3, gm_choir_aahs:1")
+  .euclidrot(9, 16, "<3 2 4>")
+  .clip(1)
+.gain(.8)
+
+_cp: sound("cp")
+  .bank("RolandTR909")
+  .struct("{[0 0 0 1]}%4") 
+  .gain(1.2)
+
+_bumpin_that: s("vec1_sounds:<65 66>")
+  .fast(8)
+  .hpf(1400)
+  .lpf(1000)
+  .distort("<3:.5>")
+  ._scope()
+// fill:  s("vec1_303_acid:2").scrub(rand.seg(16)).rib(1, .5)
+//   .sometimesBy(.1, x => x.ply("2"))
+//   // .crush("<3 4> 5")
+//   // .lpf(800)
+//   // .lpenv(1.5)
+//   // .coarse(8)
+//   .clip(1)
+
+// _bouncy_kick: s("vec1_clubby:9")
+//   .struct("{[1 ~ 1 ~] [1 ~ 1 1]}%4") 
+//   // .lpf(1200)
+//   .sustain(.8)
+//   .gain(1.5)
+//   .clip(1)
+//   .velocity("{1.3 1.4 1.5 1.6}")
+
+// _windy_kick: s("vec1_reverb_and_fx_kicks:2")
+//   .struct("{[1 ~ 1 ~] [1 ~ 1 1]}%4") 
+//   .lpf("{<1200 1400 1600 1800>}%1")
+//   .crush("<16 8 7 6 5 4 3>")
+//   .coarse(2)
+  
+//   // .sustain(.8)
+//   // .gain(1.5)
+//   .clip(1)
