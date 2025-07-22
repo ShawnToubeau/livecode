@@ -1,4 +1,4 @@
-await samples('github:ShawnToubeau/samples/master');
+// await samples('github:ShawnToubeau/samples/master');
 
 setCps(150 / 60 / 4);
 
@@ -16,30 +16,40 @@ _$: sound("fill:0")
   .struct("{1!4}%4")
   .clip(1)
 
+$: sound("leads:0")
+  .struct("{1!4}%4")
+  .clip(1)
+  // .lpf(slider(2200,50,4000,50))
 
-_$: sound("cp")
-  .beat("4, 8", 8)
+
+_$: sound("cp:2")
+  // .beat("4", 4)
   .clip(1)
 
 $: sound("ch")
-  // .dist(1.1)
-  .struct("{1 ~}%8")
+  .dist(4)
+  .coarse(3)
+  .struct("{1}%8")
   .sometimesBy(.1, ply("2"))
+  .postgain(.2)
   .clip(1)
 
-_$: sound("fx")
-  .coarse(3)
-  .scrub("{[<0.15@4:1.2> <0@4:.5>]}%16")
-  .hpf(400)
-  .lpf(1200)
+
+$: sound("fx")
+  // .note("{c1@6 e1@2 d1@4 f1@4}/4")
+  // .coarse(3)
+  // .crush(7)
+  .scrub("{[<0.12:.2> ]}%4") // <0@4:.5>
+  .hpf(500)
+  .lpf(2000)
   .clip(1)
-  .gain(.5)
+  // .gain(.5)
   ._scope()
 
-mel_1: note("{f <a d>}%8".sub(12))
+_mel_1: note("{f <a d>}%8".sub(12))
 .s("supersaw")
 .dist(1.5)
 .euclid(15,16)
-.hpf(slider(300,50,1800,50))
+.hpf(slider(950,50,1800,50))
 // .postgain(2)
 .clip(1)
