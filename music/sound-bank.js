@@ -326,3 +326,62 @@ _bumpin_that: s("vec1_sounds:<65 66>")
 //   // .sustain(.8)
 //   // .gain(1.5)
 //   .clip(1)
+
+  $big_club_bass: sound("industiral-techno/kick")
+  .note("{c2 d#2}/4")
+  .struct("{1}%4") // 4 | 16
+  .lpf(600)
+  // .hpf(250)
+  // .crush(6)
+  // .coarse(6)
+  .postgain(.25)
+  // .jux(rev())
+  .clip(1)
+
+
+  mel_1: note("{f <a d>}%8".sub("{12 5 8 4}%4").add(4))
+.s("supersaw")
+.dist(1)
+.euclid(15,16)
+.hpf(cc(2).range(50, 1500))
+.postgain(.8)
+.clip(1)
+
+_$: s("supersaw").note("{d2!3 c2}/4")
+  .struct("{1}%8")
+  .lpf(800)
+  .coarse(12)
+  .postgain(.5)
+  .clip(1)
+
+crushed_kick$: sound("kick")
+  .struct("{1 ~ [1 1] ~}%8")
+  // .struct("{1 ~ 1 ~}%8")
+  // .dist(2)
+  .crush(4)
+  // .hpf(50)
+  .lpf(slider(600, 100, 2000, 10))
+  .velocity(perlin.range(.9, 1.3))
+  .clip(1) 
+  .postgain(cc(1).range(0, 1))
+  ._scope()
+
+  squirmy_kick$: sound("kick")
+  .struct(
+    "{1 ~ [1 1] ~}%8"
+  )
+  .dist(berlin.range(.5, 1))
+  .crush(
+    "{6!3 5}"
+  )
+  .lpf(cc(1).range(0, 2000))
+  .velocity(perlin.range(.9, 1.3))
+  .clip(1) 
+  .postgain(.5)
+  ._scope()
+
+  would_be_great_with_break_beat: sound("leads:1")
+  .struct("{1/4}%8")
+  .clip(1)
+  .lpf(cc(2).range(0, 3000))
+  ._scope()

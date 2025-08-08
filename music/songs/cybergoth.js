@@ -1,55 +1,72 @@
 // await samples('github:ShawnToubeau/samples/master');
 
-setCps(150 / 60 / 4);
+let cc = await midin('Midi Fighter Twister')
 
-const breakNumCycles = 4
+setCps(130 / 60 / 4);
 
-bd$: sound("kick:0")
-  .struct("{1!4}%4")  
-  .dist(1.5)
-  .lpf(2000)
+synth_1: s("supersaw").note(
+  // "{c2 d#2}/2"
+  "{c2 d#2}%4"
+)
+  .struct("{1}%8")
+  // .phaser(1)
+  .lpf(cc(0).range(0, 1600))
+  .crush(perlin.range(10, 12))
+  .coarse(slider(3, 0, 4, 1))
+  .postgain(.25)
+  .clip(1)
+
+bd$: sound("kick")
+  .struct(
+    "{1 ~}%8"
+    // "{1 ~ [1 1] ~}%8"
+  )
+  .dist(berlin.range(.25, .8))
+  .lpf(cc(1).range(0, 1200))
   .velocity(perlin.range(.9, 1.3))
   .clip(1) 
-._scope()
-  
-_$: sound("fill:0")
-  .struct("{1!4}%4")
-  .clip(1)
-
-$: sound("leads:0")
-  .struct("{1!4}%4")
-  .clip(1)
-  // .lpf(slider(2200,50,4000,50))
-
-
-_$: sound("cp:2")
-  // .beat("4", 4)
-  .clip(1)
-
-$: sound("ch")
-  .dist(4)
-  .coarse(3)
-  .struct("{1}%8")
-  .sometimesBy(.1, ply("2"))
-  .postgain(.2)
-  .clip(1)
-
-
-$: sound("fx")
-  // .note("{c1@6 e1@2 d1@4 f1@4}/4")
-  // .coarse(3)
-  // .crush(7)
-  .scrub("{[<0.12:.2> ]}%4") // <0@4:.5>
-  .hpf(500)
-  .lpf(2000)
-  .clip(1)
-  // .gain(.5)
+  .postgain(.5)
   ._scope()
 
-_mel_1: note("{f <a d>}%8".sub(12))
-.s("supersaw")
-.dist(1.5)
-.euclid(15,16)
-.hpf(slider(950,50,1800,50))
-// .postgain(2)
-.clip(1)
+
+
+
+synth_2: sound("leads:1")
+  .struct(
+    "{1}%4"
+  )
+  .scrub("{0.1!2 .25@3 0.65!2 <0.8:1.5>}%8")
+  // .clip(.6)
+  .clip(1)
+  .lpf(cc(2).range(0, 3000))
+  .postgain(.25)
+  ._scope()
+
+
+hat: sound("ch")
+  .struct("{1}%4")
+  .dist(.125)
+  .sometimesBy(.15, ply("2"))
+  .postgain(cc(4).range(0, .15))
+  .clip(.8)
+
+fill$: sound("fill:1").note("{c2!3 d#2}%2".sub(7))
+  .struct(
+    "{~ 1 ~ 1}%8"
+  )
+  .lpf(cc(3).range(0, 1200))
+  .dist(.7)
+  .room(.25)
+  .roomsize(1)
+  .postgain(.4)
+  .clip(1)
+
+
+_bass: sound("fx")
+  .scrub("{0.12@3:.2 0.05:.25}%8")
+  // .hpf(100)
+  .lpf(300)
+  .clip(1)
+  .gain(.2)
+  ._scope()
+
