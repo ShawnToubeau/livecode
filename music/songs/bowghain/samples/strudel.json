@@ -1,0 +1,12 @@
+{
+  "_base": "https://raw.githubusercontent.com/ShawnToubeau/samples/master/",
+  "fill": [
+    "fill/fill01.wav"
+  ],
+  "fx": [
+    "fx/fx01.wav"
+  ],
+  "stab": [
+    "stab/stab01.wav"
+  ]
+}
